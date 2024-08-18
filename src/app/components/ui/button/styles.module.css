@@ -1,0 +1,16 @@
+.button {
+    padding: 10px 10px;
+    min-width: 150px;
+    border: 2px solid #147bdc38;
+    cursor: pointer;
+    background-color: #c4def6;
+    color: #535151;
+}
+
+.iconButton {
+    padding: 2px 5px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border: 1px solid #d4cfcf;
+}

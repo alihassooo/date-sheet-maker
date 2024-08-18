@@ -1,0 +1,78 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.info {
+    border: 2px solid #ecc6ad;
+    padding: 10px;
+   
+    background-color: #FFF8F3;
+    margin-right: 60%;
+}
+
+
+.select {
+    margin: 6px;
+    padding: 10px;
+    border: 2px solid #749ebc;
+    
+    background-color: #cce8ff99;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.select option {
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    
+}
+
+.button {
+    margin: 6px;
+    padding: 10px;
+    background-color: #cce8ff99;
+    border: 2px solid #749ebc;
+    cursor: pointer;
+  
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    
+}
+
+.table {
+    border-collapse: collapse;
+    width: 40%;
+    margin-top: 30px;
+    
+}
+
+.thead>tr>th {
+    border: 1px solid #2f6c98;
+    padding: 8px;
+    background-color: #91c9f799;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.tbody>tr>td {
+    border: 1px solid #2f6c98;
+    background-color: #eef7ff99;
+    padding: 7px;
+    font-family: 'Times New Roman', Times, serif;
+    
+}
+.edit{
+    color: #04233a;
+    padding: 3px;
+    cursor: pointer;
+    
+    
+}
+.delete{
+    color: #002037;
+    padding: 3px;
+
+    cursor: pointer;
+}

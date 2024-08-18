@@ -1,0 +1,176 @@
+'use client'
+
+import { v4 as uuidv4 } from 'uuid';
+import { classes, grades } from '@/constant'
+import styles from './styles.module.css'
+import { Select } from '../ui/form/select'
+import { Input } from '../ui/form/input'
+import { useEffect, useState } from 'react'
+import { Button } from '../ui/button'
+
+const initialState = {
+    name: '',
+    fatherName: '',
+    bForm: '',
+    lastClass: '',
+    lastGrade: '',
+    admissionClass: ''
+}
+
+export const StudentAdmissionForm = (props) => {
+    const { students, setStudents, selectedStudent, setSelectedStudent } = props
+    const [formData, setFormData] = useState(initialState)
+
+    const isEdit = Object.keys(selectedStudent).length > 0
+
+    const isSaveButtonDisabled = (
+        !formData.name ||
+        !formData.fatherName ||
+        !formData.bForm ||
+        !formData.lastClass ||
+        !formData.lastGrade ||
+        !formData.admissionClass
+    )
+
+    useEffect(() => {
+        if (isEdit) {
+            setFormData(selectedStudent)
+        }
+        else {
+            setFormData(initialState)
+        }
+    }, [selectedStudent])
+
+    const handleDataSave = () => {
+        if (isSaveButtonDisabled) {
+            alert("Please fill Student Information completely!")
+            return
+        }
+        const payloadToSave = {
+            ...formData,
+            id: uuidv4(),
+            lastClassTitle: classes.find(el => el.id == formData.lastClass).title,
+            lastGradeTitle: (formData.lastGrade).toUpperCase(),
+            admissionClassTitle: classes.find(el => el.id == formData.admissionClass).title
+        }
+
+        if (isEdit) {
+            const id = selectedStudent.id
+            const updatedList = students.map(s => {
+                if (s.id === id) {
+                    return {
+                        ...selectedStudent,
+                        ...formData
+                    }
+                }
+                return s
+            })
+            setStudents(updatedList)
+            setSelectedStudent({})
+        } else {
+            setStudents(preState => ([...preState, payloadToSave]))
+        }
+        setFormData(initialState)
+    }
+
+    return (
+        <div className={styles.container}>
+            <form>
+                <div className={styles.formContent}>
+                    <div className={styles.personalInfoSection}>
+                        <div className={styles.imageSection}>
+                            <img src="student.jpeg" className={styles.image} />
+                        </div>
+                        <div className={styles.infoSection}>
+                            <Input
+                                label="NAME"
+                                placeholder="Enter Student Name"
+                                onChange={e => {
+                                    const value = e.target.value
+                                    const alpha = /^[A-Za-z\s]*$/;
+                                    if (alpha.test(value)) {
+                                        setFormData(preState => ({ ...preState, name: value }))
+                                    }
+                                }}
+                                variant="vertical"
+                                value={formData.name}
+                            />
+                            <Input
+                                label="Father Name"
+                                placeholder="Enter Father Name"
+                                onChange={e => {
+                                    const value = e.target.value;
+                                    const alpha = /^[A-Za-z\s]*$/;
+                                    if (alpha.test(value)) {
+                                        setFormData(preState => ({ ...preState, fatherName: value }));
+                                    }
+                                }}
+                                variant="vertical"
+                                value={formData.fatherName}
+                            />
+                            <Input
+                                label="B-Form"
+                                placeholder="Enter B-Form"
+                                onChange={e => {
+                                    let num = e.target.value;
+                                    num = num.replace(/[^0-9]/g, '');
+                                    if (num.length < 14) {
+                                        setFormData(preState => ({ ...preState, bForm: num }));
+                                    }
+
+                                }}
+                                variant="vertical"
+                                value={formData.bForm}
+                            />
+                        </div>
+                    </div>
+                    <div className={styles.academicInfoSection}>
+                        <Select
+                            label="Last Class"
+                            options={classes}
+                            variant="vertical"
+                            onChange={e => {
+                                const value = e.target.value
+                                setFormData(preState => ({ ...preState, lastClass: value }))
+                            }}
+                            value={formData.lastClass}
+                            placeholder="Select Class"
+                        />
+                        <Select
+                            label="Last Grade"
+                            options={grades}
+                            variant="vertical"
+                            onChange={e => {
+                                const value = e.target.value
+                                setFormData(preState => ({ ...preState, lastGrade: value }))
+                            }}
+                            value={formData.lastGrade}
+                            placeholder="Select Grade"
+                        />
+                        <Select
+                            label="Admission Class"
+                            options={classes}
+                            variant="vertical"
+                            onChange={e => {
+                                const value = e.target.value
+                                setFormData(preState => ({ ...preState, admissionClass: value }))
+                            }}
+                            value={formData.admissionClass}
+                            placeholder="Select Class"
+                        />
+                    </div>
+                    <div className={styles.submitSection}>
+                        <Button
+                            title={isEdit ? 'Update' : 'Save'}
+                            onClick={handleDataSave}
+                            disabled={isSaveButtonDisabled}
+                        />
+                    </div>
+                    <div className={styles.formData}>
+                        {JSON.stringify(formData)}
+                    </div>
+                </div>
+            </form>
+        </div>
+    )
+}
